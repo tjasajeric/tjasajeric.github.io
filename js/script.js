@@ -5,7 +5,7 @@
         window.location = 'https://github.com/tjasajeric';
     };
 
-    var repoPath = getUrlFromVars();
+    var repoPath = getUrlFromVars('repo');
     if (repoPath === undefined) {
         openDefault();
     }
