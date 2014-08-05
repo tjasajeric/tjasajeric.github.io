@@ -15,32 +15,26 @@
 
     var $mag = $('#magazine');
 
-    var pages = [];
     var loadedPage = 1;
     var LOAD_MORE = 5;
 
     $.getJSON('https://api.github.com/repos/tjasajeric/' + repoPath + '/contents/images/').done(function(data) {
+      var hasPage = false;
       $.each( data, function( key, value ) {
         if (filterRegex.test(value['name'])) {
-            pages.push(value['html_url'].replace('/blob/', '/raw/'));
+            hasPage = true;
+            $mag.append($('<div style="background-image:url(' + value['html_url'].replace('/blob/', '/raw/') + '); background-size:100% 100%;" />'));
         }
       });
 
-      if (pages.length === 0) {
+      if (!hasPage) {
         openDefault();
       }
 
-      $mag.turn({pages: 1});
+      $mag.turn();
       $(window).trigger('resize');
     }).fail(function() {
         openDefault();
-    });
-
-    $mag.bind('turning', function(e, page) {
-        while(loadedPage <= Math.min(page + LOAD_MORE, pages.length)) {
-            $mag.turn('addPage', $('<div style="background-image:url(' + pages[loadedPage-1] + '); background-size:100% 100%;" />'), loadedPage);
-            loadedPage++;
-        }
     });
 
     $(window).resize(function() {
