@@ -15,9 +15,6 @@
 
     var $mag = $('#magazine');
 
-    var loadedPage = 1;
-    var LOAD_MORE = 5;
-
     $.getJSON('https://api.github.com/repos/tjasajeric/' + repoPath + '/contents/images/').done(function(data) {
       var hasPage = false;
       $.each( data, function( key, value ) {
